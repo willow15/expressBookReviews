@@ -12,9 +12,9 @@ public_users.post("/register", (req,res) => {
   if (username && password) {
     if (isValid(username)) {
         users.push({'username': username, 'password': password});
-        return res.status(200).json({message: 'User successfully registred. Now you can login'});
+        return res.status(200).json({message: 'Customer successfully registred. Now you can login'});
     } else {
-        return res.status(404).json({message: 'User already exists!'});
+        return res.status(404).json({message: 'Customer already exists!'});
     }
   }
   return res.status(404).json({message: 'Unable to register user.'});
@@ -30,7 +30,7 @@ let myPromise = new Promise((resolve, reject) => {
 public_users.get('/',function (req, res) {
   //Write your code here
   myPromise.then((books) => {
-    res.send(JSON.stringify(books, null, 4));
+    res.send(JSON.stringify({'books': books}, null, 4));
   });
 });
 
@@ -48,13 +48,13 @@ public_users.get('/author/:author',function (req, res) {
   //Write your code here
   myPromise.then((books) => {
     const author = req.params.author;
-    const filtered_books = [];
+    const booksbyauthor = [];
     for (const [isbn, details] of Object.entries(books)) {
         if (details.author === author) {
-            filtered_books.push(details);
+            booksbyauthor.push(details);
         }
     }
-    res.send(filtered_books);
+    res.send(JSON.stringify({'booksbyauthor': booksbyauthor}, null, 4));
   });
 });
 
@@ -63,13 +63,13 @@ public_users.get('/title/:title',function (req, res) {
   //Write your code here
   myPromise.then((books) => {
     const title = req.params.title;
-    const filtered_books = [];
+    const booksbytitle = [];
     for (const [isbn, details] of Object.entries(books)) {
         if (details.title === title) {
-            filtered_books.push(details);
+            booksbytitle.push(details);
         }
     }
-    res.send(filtered_books);
+    res.send(JSON.stringify({'booksbytitle': booksbytitle}, null, 4));
   });
 });
 
